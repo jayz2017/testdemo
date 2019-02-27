@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.activiti.dao.ActReDeploymentDao">
+	<resultMap type="ActReDeployment" id="ActReDeploymentResult">
+		<result property="id" column="ID_" />
+		<result property="name" column="NAME_" />
+		<result property="cate_gory" column="CATEGORY_" />
+		<result property="tenant_id" column="TENANT_ID_" />
+		<result property="deploy_time" column="DEPLOY_TIME_" />
+	</resultMap>
+
+	<select id="findAll" parameterType="ActReDeployment"
+		resultMap="ActReDeploymentResult">
+		select * from act_re_deployment
+	</select>
+
+</mapper> 

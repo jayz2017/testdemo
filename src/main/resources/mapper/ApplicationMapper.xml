@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.activiti.dao.ApplicationDao">
+	<resultMap type="CosApplication" id="ApplicationResult">
+		<result property="application_id" column="application_id" />
+		<result property="profile_id" column="profile_id" />
+		<result property="application_status"
+			column="application_status" />
+		<result property="aplication_cretor"
+			column="APPLICATION_CREATOR" />
+		<result property="current_operator" column="current_operator" />
+		<result property="form_version" column="form_version" />
+		<result property="submit_time" column="submit_time" />
+		<result property="lastMdfyOperator" column="lastMdfyOperator" />
+		<result property="lastMdfyTime" column="lastMdfyTime" />
+		<result property="priority" column="priority" />
+		<result property="work_id" column="WORK_ID" />
+		<result property="process_id" column="process_id" />
+	</resultMap>
+
+	<insert id="insertOrderInfo" parameterType="CosApplication">
+		<!-- <selectKey keyColumn="APPLICATION_ID" keyProperty="application_id" 
+			order="BEFORE" resultType="string"> SELECT uuid() </selectKey> -->
+		INSERT INTO application
+		(
+		APPLICATION_ID,
+		PROFILE_ID,
+		APPLICATION_STATUS,
+		APPLICATION_CREATOR,
+		CURRENT_OPERATOR,
+		FORM_VERSION,
+		PRODUCT_TYPE,
+		SUBMIT_TIME,
+		LAST_MDFY_OPERATOR,
+		LAST_MDFY_TIME,
+		PRIORITY,
+		WORK_ID,
+		process_id
+		)
+		VALUES (
+		#{application_id} ,
+		#{profile_id},
+		#{application_status},
+		#{aplication_cretor},
+		#{current_operator},
+		#{form_version},
+		#{product_type} ,
+		#{submit_time},
+		#{lastMdfyOperator},
+		#{lastMdfyTime},
+		#{priority},
+		#{work_id},
+		#{process_id}
+		);
+
+	</insert>
+	<select id="selectApplicationList"
+		parameterType="CosApplication" resultMap="ApplicationResult">
+		select * from application where 1=1
+		<if test="application_id!=null and application_id!='' ">
+			and application_id = #{application_id}
+		</if>
+	</select>
+	<update id="UpdateOperationType" parameterType="Map">
+		UPDATE application
+		SET APPLICATION_STATUS = #{applicationStatus}
+		WHERE PROFILE_ID = #{profileId}
+	</update>
+	<select id="findByprocessId" parameterType="String" resultMap="ApplicationResult">
+		select * from application where process_id=#{process_id}
+	</select>
+	<update id="UpdateProcessId" parameterType="Map">
+		UPDATE application
+		SET process_id = #{process_id}
+		WHERE application_id = #{application_id}
+	</update>
+</mapper> 

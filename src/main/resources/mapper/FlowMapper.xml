@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.activiti.dao.FlowDao">
+	<resultMap type="WorkFlow" id="FlowResult">
+		<result property="work_flow_id" column="work_flow_id"/>
+		<result property="previous" column="previous"/>
+		<result property="self" column="self"/>
+		<result property="next" column="next"/>
+		<result property="level" column="level"/>
+	</resultMap>
+
+	<select id="findAll" parameterType="String" resultMap="FlowResult">
+		select * from workflow where PREVIOUS=#{previous}
+	</select>
+	
+	<select id="findOne" parameterType="String" resultMap="FlowResult">
+		select * from workflow where WORK_FLOW_ID=#{work_flow_id}
+	</select>
+	
+	<!-- <select id="findWorkFlowNext" parameterType="String" resultMap="FlowResult">
+		select * from workflow
+	</select> -->
+	</mapper> 

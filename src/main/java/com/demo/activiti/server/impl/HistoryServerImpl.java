@@ -8,15 +8,14 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.bpmn.model.GraphicInfo;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
-import org.activiti.engine.history.HistoricDetail;
 import org.activiti.engine.history.HistoricTaskInstance;
-import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
-import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Comment;
@@ -147,17 +146,17 @@ public class HistoryServerImpl implements HistoryServer {
 		mav.addObject("deploymentId", processDefinition.getDeploymentId());
 		mav.addObject("diagramResourceName", processDefinition.getDiagramResourceName());
 
-		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) repositoryService
-				.getProcessDefinition(processDefinitionId);
+		BpmnModel processDefinitionEntity = repositoryService.getBpmnModel(processDefinitionId);
+				//.getProcessDefinition(processDefinitionId);
 		String processInstanceId = task.getProcessInstanceId();
 		ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId)
 				.singleResult();
-
-		ActivityImpl activityImpl = processDefinitionEntity.findActivity(pi.getActivityId());
-		mav.addObject("x", activityImpl.getX());
-		mav.addObject("y", activityImpl.getY());
-		mav.addObject("width", activityImpl.getWidth());
-		mav.addObject("height", activityImpl.getHeight());
+		GraphicInfo info=processDefinitionEntity.getLocationMap().get(pi.getActivityId());
+		//ActivityImpl activityImpl = processDefinitionEntity.get(pi.getActivityId());
+		mav.addObject("x", info.getX());
+		mav.addObject("y", info.getY());
+		mav.addObject("width", info.getWidth());
+		mav.addObject("height", info.getHeight());
 		mav.setViewName("page/currentView");
 		return mav;
 	}
@@ -278,6 +277,7 @@ public class HistoryServerImpl implements HistoryServer {
 		return listInfo;
 	}
 
+	
 	/**
 	 * 查询历史操作流程图
 	 */
@@ -286,17 +286,17 @@ public class HistoryServerImpl implements HistoryServer {
 		ModelAndView mav = new ModelAndView();
 		String processDefinitionId = null;
 		String processInstanceId = null;
-		ActivityImpl activityImpl =null;
+		GraphicInfo activityImpl =null;
 		// 创建一个历史任务查询
 		HistoricTaskInstance singleResultDetail = historyService.createHistoricTaskInstanceQuery().taskId(taskId)
 				.singleResult();
 		if (!ObjectUtils.isNullOrEmpty(singleResultDetail)) {
-			/*
-			 * HistoricTaskInstance historicTaskInstance =
-			 * historyService.createHistoricTaskInstanceQuery()
-			 * .processInstanceId(singleResultDetail.getProcessInstanceId()).
-			 * orderByTaskCreateTime().desc().list() .get(0);
-			 */
+			
+			 HistoricTaskInstance historicTaskInstance =
+			historyService.createHistoricTaskInstanceQuery()
+			  .processInstanceId(singleResultDetail.getProcessInstanceId()).
+			orderByTaskCreateTime().desc().list() .get(0);
+			 
 			// if (!ObjectUtils.isNullOrEmpty(historicTaskInstance)) {
 			// 去查询正在执行的任务存在不，不存在则去查历史流程步骤表
 			List<Task> list = taskService.createTaskQuery().processInstanceId(singleResultDetail.getProcessInstanceId())
@@ -329,14 +329,14 @@ public class HistoryServerImpl implements HistoryServer {
 	}
 
 	
-	public ActivityImpl Node(ModelAndView mav, String processDefinitionId, String processInstanceId,String activityId) {
+	public GraphicInfo Node(ModelAndView mav, String processDefinitionId, String processInstanceId,String activityId) {
 		String act_id=null;
 		ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
 				.processDefinitionId(processDefinitionId).singleResult();
 		mav.addObject("deploymentId", processDefinition.getDeploymentId());
 		mav.addObject("diagramResourceName", processDefinition.getDiagramResourceName());
-		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) repositoryService
-				.getProcessDefinition(processDefinitionId);
+		BpmnModel processDefinitionEntity = repositoryService.getBpmnModel(processDefinitionId);
+				//.getProcessDefinition(processDefinitionId);
 		ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId)
 				.singleResult();
 		
@@ -345,7 +345,8 @@ public class HistoryServerImpl implements HistoryServer {
 		}else {
 			act_id=activityId;
 		}
-		return processDefinitionEntity.findActivity(act_id);
+	   //return processDefinitionEntity.findActivity(act_id);
+		return processDefinitionEntity.getLocationMap().get(act_id);
 	}
 
 

@@ -4,7 +4,7 @@ import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.ExecutionListener;
 
 /**
- * 任务执行监听器
+ * 浠诲姟鎵ц鐩戝惉鍣�
  * 
  * @author chenhao
  *
@@ -12,7 +12,7 @@ import org.activiti.engine.delegate.ExecutionListener;
 public class TaskExecutionLintener implements ExecutionListener {
 
 	@Override
-	public void notify(DelegateExecution execution) throws Exception {
+	public void notify(DelegateExecution execution){
          
 	}
 

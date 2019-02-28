@@ -8,7 +8,7 @@
     <sequenceFlow id="flow2" name="pass" sourceRef="TH" targetRef="Agents">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${msg=='pass'}]]></conditionExpression>
     </sequenceFlow>
-    <userTask id="RSO" name="RSO" activiti:candidateGroups="RSO"></userTask>
+    <userTask id="RSO" name="RSO"></userTask>
     <userTask id="BBO" name="BBO" activiti:candidateGroups="BBO"></userTask>
     <userTask id="SD_Maker" name="SD_Maker" activiti:candidateGroups="SD_Maker"></userTask>
     <userTask id="CM_TH" name="CM_TH" activiti:candidateGroups="CM_TH"></userTask>
@@ -301,7 +301,7 @@
         <omgdi:waypoint x="297.0" y="203.0"></omgdi:waypoint>
         <omgdi:waypoint x="333.0" y="175.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="30.0" x="287.0" y="201.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="287.0" y="201.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

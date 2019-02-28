@@ -2,4 +2,5 @@ eclipse.preferences.version=1
 encoding//src/main/java/com/demo/activiti/controller/HistoryController.java=UTF-8
 encoding//src/main/java/com/demo/activiti/controller/WorkFlowController.java=UTF-8
 encoding//src/main/java/com/demo/activiti/server/impl/HistoryServerImpl.java=UTF-8
-encoding/<project>=UTF-8
+encoding//src/main/java/com/demo/activiti/server/impl/RejectExecutionListener.java=UTF-8
+encoding//src/main/java/com/demo/activiti/server/impl/TaskExecutionLintener.java=UTF-8
